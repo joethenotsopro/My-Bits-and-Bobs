@@ -1,0 +1,104 @@
+# 7zips everything in a directory leaving only the 7z's. Requires p7zip of course.
+
+#!/bin/bash
+var=$(pwd)
+p7zip "$var"/*.*
+
+
+
+
+# My other programs look fine why do the fonts in this one look so bad? Add this to a launch script and see if it helps.
+
+#!/bin/bash
+export FONTCONFIG_PATH=/etc/fonts
+your-program-name
+
+
+
+
+# Recursive delete
+
+#!/bin/bash
+find . -type f -name 'FILENAME' -exec rm {} +
+
+
+
+
+# tar.gz individual directories. Got 100 directories and want 100 tar's?
+
+#!/bin/bash
+for dir in */
+do
+  base=$(basename "$dir")
+  tar -czvf "${base}.tar.gz" "$dir"
+done
+
+
+
+
+# Need parity for backups? This tar & par will do the same as above but with added par2's. Requires par2.
+#!/bin/bash
+for directory in *
+do
+tar czvf "$directory.tar.gz" "$directory"
+par2 c -r10 "$directory.tar.gz"
+done;
+
+
+
+
+# USE WITH CAUTION. Shred's everything recursively.
+#!/bin/bash
+read -p THIS WILL SHRED EVERYTHING RECURSIVELY! PRESS A KEY TO SHRED....
+find -type f -execdir shred -u '{}' \;
+rm -rf *
+
+
+
+
+# Got 100 files with the same string in the filename that needs replacing?
+#!/bin/bash
+echo "String To Replace?"
+read searchstring
+echo "Replace With?"
+read replacestring
+for i in * ; do j=`echo $i | sed 's#'$searchstring'#'$replacestring'#g' - ` ; mv "$i" "$j" ; done
+
+
+
+
+# Recursively copy (or move)
+find . -name "*.mp3" -exec cp {} -v $HOME/mymusic ";"
+
+
+
+
+# Takes a bunch of important files (say photo's), tar.gz's them, then encrypts them with your chosen password
+# (type this very carefully!) and add's parity blocks for good measure. Ideal for uploading to a cloud provider.
+#!/bin/bash
+file_create=${PWD##*/}
+echo "Password?"
+read gpg_passphrase
+
+##START
+tar -czvf $file_create.tar.gz *
+echo $gpg_passphrase | gpg --batch --passphrase-fd 0 --symmetric "$file_create.tar.gz"
+par2 c -r10 $file_create.tar.gz.gpg
+
+
+
+
+# Create a DVD ISO from a temporary directory with VIDEO_TS in it, then burn it. Requires genisoimage and growisofs.
+#!/bin/bash
+genisoimage -dvd-video -o $HOME/dvd.iso  $HOME/tmp
+growisofs -dvd-compat -speed=4 -Z /dev/sr0=$HOME/dvd.iso
+
+
+
+
+# Got 2000 text files with no .txt on the end of them?
+#!/bin/bash
+echo "Extention to append"
+read extention
+
+for i in *; do mv "$i" "$i".$extention; done
