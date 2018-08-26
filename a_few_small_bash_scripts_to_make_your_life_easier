@@ -1,4 +1,5 @@
-# 7zips everything in your current directory (including folders with contents) leaving only the 7z behind.
+# 7zips everything in your current directory (including folders with contents) into seperate archives leaving
+# only the 7z's behind.
 # Requires p7zip.
 #
 # sudo apt-get install p7zip
