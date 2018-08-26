@@ -1,10 +1,11 @@
-# To use it, copy the 4 lines of code (lines 10-13) into a file called compress_pdf.sh and then:
+# To use it, copy the 4 lines of code (lines 11-14) into a file called compress_pdf.sh and then:
 #
 # cp compress_pdf.sh $HOME/bin
 # chmod +x $HOME/bin/compress_pdf.sh
 #
 # Open up a terminal window in your PDF files directory and then run the script... the script creates a directory
-# called $HOME/pdf_output and then compresses the PDF's into that directory. It leaves the original PDF's intact.
+# called $HOME/pdf_output and then compresses the PDF's into that directory. It leaves the original PDF's intact
+# where they are.
 
 
 #!/bin/bash
