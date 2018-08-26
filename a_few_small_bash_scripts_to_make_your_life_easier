@@ -108,13 +108,15 @@ find . -name "*.mp3" -exec cp {} -v $HOME/mymusic ";"
 # Requires: par2
 # sudo apt-get install par2
 #
-# I use the following two scripts to upload my photo's and home videos to my cloud provider. I encourage you to test
-# them out in a temporary directory with some throwaway files before you let them loose on your private stuff. Security 101.
+# I use the following two scripts to upload my photo's and home videos to my cloud provider. I encourage you to
+# test them out in a temporary directory with some throwaway files before you let them loose on your private stuff.
+# Security 101.
 #
-# 1. tar.gz's a directory recursively with the name of the directory you are currently in. So if you want your file to
-#    be called myprivatestuff.tar.gz then move it all over to $HOME/tmp/myprivatestuff and make sure you are actually in that
-#    directory when you execute the script. Example prompt: you@yourhost:~/tmp/myprivatestuff
-# 2. Encrypts it with your chosen password (type this *very* carefully and double-triple check before you press Return!)
+# 1. tar.gz's a directory recursively with the name of the directory you are currently in. So if you want your 
+#    file to be called myprivatestuff.tar.gz then move it all over to $HOME/tmp/myprivatestuff and make sure you
+#    are actually in that directory when you execute the script. Example prompt: you@yourhost:~/tmp/myprivatestuff
+# 2. Encrypts it with your chosen password (type this *very* carefully and double-triple check before you press
+#    Return!)
 # 3. Add's parity blocks for extra data security.
 # 4. Moves the encrypted files to your $HOME
 # 5. Shreds the original files.
