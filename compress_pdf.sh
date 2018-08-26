@@ -1,4 +1,4 @@
-# To use it, copy the 4 lines of code (lines 11-14) into a file called compress_pdf.sh and then:
+# To use it, copy the 4 lines of code into a file called compress_pdf.sh and then:
 #
 # cp compress_pdf.sh $HOME/bin
 # chmod +x $HOME/bin/compress_pdf.sh
