@@ -34,7 +34,8 @@ export WINEPREFIX=/home/joethenotsopro/wine-bottles/PREFIXNAME
 cd '/home/joethenotsopro/wine-bottles/PREFIXNAME/drive_c/Program Files (x86)/Your Programs Directory'
 wine "c:\Program Files (x86)\Your Programs Directory\yourprogram.exe"
 
-# Some programs misbehave so require a small virtual desktop to run on, or they just look better fullscreen in a window!... some games like Hearts of Iron look great like this
+# Some programs misbehave so require a small virtual desktop to run on, or they just look better
+# fullscreen in a window!... some games like Hearts of Iron look great like this
 export WINEPREFIX=/home/joethenotsopro/wine-bottles/PREFIXNAME
 cd '/home/joethenotsopro/wine-bottles/PREFIXNAME/drive_c/Program Files/Your Programs Directory'
 wine explorer /desktop=PROGRAM-NAME,1024x768 "c:\Program Files\Your Programs Directory\yourprogram.exe"
