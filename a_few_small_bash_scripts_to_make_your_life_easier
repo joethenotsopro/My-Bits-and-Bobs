@@ -1,13 +1,19 @@
-# 7zips everything in a directory leaving only the 7z's. Requires p7zip of course.
+# 7zips everything in your current directory (including folders with contents) leaving only the 7z behind.
+# Requires p7zip.
+#
+# sudo apt-get install p7zip
 
 #!/bin/bash
 var=$(pwd)
-p7zip "$var"/*.*
+p7zip "$var"/*
 
 
 
 
-# My other programs look fine why do the fonts in this one look so bad? Add this to a launch script and see if it helps.
+
+# My other programs look fine why do the fonts in this one look so bad?
+#
+# Add this to a launch script and see if it helps.
 
 #!/bin/bash
 export FONTCONFIG_PATH=/etc/fonts
@@ -16,7 +22,8 @@ your-program-name
 
 
 
-# Recursive delete
+
+# Recursive delete. Use with caution.
 
 #!/bin/bash
 find . -type f -name 'FILENAME' -exec rm {} +
@@ -24,7 +31,8 @@ find . -type f -name 'FILENAME' -exec rm {} +
 
 
 
-# tar.gz individual directories. Got 100 directories and want 100 tar's?
+
+# tar.gz individual directories. You have 100 directories to compress and achy fingers, try this out.
 
 #!/bin/bash
 for dir in */
@@ -36,7 +44,13 @@ done
 
 
 
-# Need parity for backups? This tar & par will do the same as above but with added par2's. Requires par2.
+
+# Need parity for backups? This tar & par will do the same as above but with added par2's.
+#
+# Requires par2.
+#
+# sudo apt-get par2
+
 #!/bin/bash
 for directory in *
 do
@@ -47,7 +61,9 @@ done;
 
 
 
+
 # USE WITH CAUTION. Shred's everything recursively.
+
 #!/bin/bash
 read -p THIS WILL SHRED EVERYTHING RECURSIVELY! PRESS A KEY TO SHRED....
 find -type f -execdir shred -u '{}' \;
@@ -56,7 +72,17 @@ rm -rf *
 
 
 
-# Got 100 files with the same string in the filename that needs replacing?
+
+# Got 100 files with the same string in the filename that needs replacing or removing?
+#
+# Examples: cardiacs_-_on_land_and_in_the_sea_-_01_-_two_bites_of_cherry-myelitegroupname.mp3
+#           cardiacs_-_on_land_and_in_the_sea_-_02_-_baby_heart_dirt-myelitegroupname.mp3
+#           etc....
+#
+#           accounts-myoldcompanyname-25/12/1992.doc
+#           accounts-myoldcompanyname-01/01/1993.doc
+#           etc
+
 #!/bin/bash
 echo "String To Replace?"
 read searchstring
@@ -67,28 +93,75 @@ for i in * ; do j=`echo $i | sed 's#'$searchstring'#'$replacestring'#g' - ` ; mv
 
 
 
-# Recursively copy (or move)
+
+# Recursively copy (or move) files to a given location....
+
+#!/bin/bash
 find . -name "*.mp3" -exec cp {} -v $HOME/mymusic ";"
 
 
 
 
-# Takes a bunch of important files (say photo's), tar.gz's them, then encrypts them with your chosen password
-# (type this very carefully!) and add's parity blocks for good measure. Ideal for uploading to a cloud provider.
+
+# TAR / PAR / ENCRYPT / SHRED!
+#
+# Requires: par2
+# sudo apt-get install par2
+#
+# I use the following two scripts to upload my photo's and home videos to my cloud provider. I encourage you to test
+# them out in a temporary directory with some throwaway files before you let them loose on your private stuff. Security 101.
+#
+# 1. tar.gz's a directory recursively with the name of the directory you are currently in. So if you want your file to
+#    be called myprivatestuff.tar.gz then move it all over to $HOME/tmp/myprivatestuff and make sure you are actually in that
+#    directory when you execute the script. Example prompt: you@yourhost:~/tmp/myprivatestuff
+# 2. Encrypts it with your chosen password (type this *very* carefully and double-triple check before you press Return!)
+# 3. Add's parity blocks for extra data security.
+# 4. Moves the encrypted files to your $HOME
+# 5. Shreds the original files.
+#
+# The decryption script is below the encryption script.
+#
+# IMPORTANT NOTES:
+# a. Make sure your file manager is not in the folder you are shredding to prevent it locking up as Thunar did when I
+#    retested this script :-)
+# b. It can take quite a long time to shred large files so please be patient or just simply remove this part of the
+#    script if you can do without it.
+# c. Do not execute this script in any root directory, $HOME or otherwise!
+# d. Read C again.
+
+#TAR/PAR/ENCRYPT/SHRED
 #!/bin/bash
 file_create=${PWD##*/}
 echo "Password?"
 read gpg_passphrase
-
-##START
 tar -czvf $file_create.tar.gz *
 echo $gpg_passphrase | gpg --batch --passphrase-fd 0 --symmetric "$file_create.tar.gz"
 par2 c -r10 $file_create.tar.gz.gpg
+mv *.par2 $HOME
+mv *.gpg $HOME
+echo *********************************************
+echo SHREDDING THE ORIGINALS FILES... PLEASE WAIT!
+echo *********************************************
+find -type f -execdir shred -u -z '{}' \;
+rm -rf *
+
+#DECRYPTION SCRIPT
+#!/bin/bash
+file_create=${PWD##*/}
+echo "Decryption Password?"
+read gpg_passphrase
+echo $gpg_passphrase | gpg --batch --passphrase-fd 0 --decrypt-files *.gpg
 
 
 
 
-# Create a DVD ISO from a temporary directory with VIDEO_TS in it, then burn it. Requires genisoimage and growisofs.
+
+# Creates a DVD compatible ISO from a temporary directory with VIDEO_TS in it, then burns it at 4x speed for reliability
+#
+# Requires genisoimage and growisofs.
+#
+# sudo apt-get growisofs genisoimage
+
 #!/bin/bash
 genisoimage -dvd-video -o $HOME/dvd.iso  $HOME/tmp
 growisofs -dvd-compat -speed=4 -Z /dev/sr0=$HOME/dvd.iso
@@ -96,9 +169,69 @@ growisofs -dvd-compat -speed=4 -Z /dev/sr0=$HOME/dvd.iso
 
 
 
-# Got 2000 text files with no .txt on the end of them?
+
+# Do you have 2000 text files with no .txt on the end of them that your editor complains about?
+#
+# Downloaded mp3's that have no file extention?
+#
+# Execute this in a temporary directory with those files only!
+
 #!/bin/bash
 echo "Extention to append"
 read extention
 
 for i in *; do mv "$i" "$i".$extention; done
+
+
+
+
+
+# You have a huge music library (we all do) and don't want to install the latest bloatware to manage it?
+# This following script is easy to follow (and change). I'm sure a bash prodigy could clean it up but it's simple
+# to follow and hence simple to modify (which you will need to do, obviously...).
+#
+# It creates .m3u's for each subfolder then combines them all into one giant .m3u and who doesn't want
+# a Bill Hicks joke right after a Hendrix solo right? Album art be damned - MOC addicts unite!
+
+#!/bin/bash
+mkdir $HOME/tmp
+find $HOME/Music/albums/ -iname "*.mp3" > $HOME/tmp/albums_mp3.tmp
+find $HOME/Music/albums/ -iname "*.flac" > $HOME/tmp/albums_flac.tmp
+cat $HOME/tmp/albums_mp3.tmp >> $HOME/tmp/albums_flac.tmp
+rm $HOME/tmp/albums_mp3.tmp
+mv $HOME/tmp/albums_flac.tmp $HOME/albums.m3u
+
+find $HOME/Music/audiobooks/ -iname "*.mp3" > $HOME/tmp/audiobooks_mp3.tmp
+find $HOME/Music/audiobooks/ -iname "*.flac" > $HOME/tmp/audiobooks_flac.tmp
+cat $HOME/tmp/audiobooks_mp3.tmp >> $HOME/tmp/audiobooks_flac.tmp
+rm $HOME/tmp/audiobooks_mp3.tmp
+mv $HOME/tmp/audiobooks_flac.tmp $HOME/audiobooks.m3u
+
+find $HOME/Music/radio_shows/ -iname "*.mp3" > $HOME/tmp/radio_shows_mp3.tmp
+find $HOME/Music/radio_shows/ -iname "*.flac" > $HOME/tmp/radio_shows_flac.tmp
+cat $HOME/tmp/radio_shows_mp3.tmp >> $HOME/tmp/radio_shows_flac.tmp
+rm $HOME/tmp/radio_shows_mp3.tmp
+mv $HOME/tmp/radio_shows_flac.tmp $HOME/radio_shows.m3u
+
+find $HOME/Music/compilations/ -iname "*.mp3" > $HOME/tmp/compilations_mp3.tmp
+find $HOME/Music/compilations/ -iname "*.flac" > $HOME/tmp/compilations_flac.tmp
+cat $HOME/tmp/compilations_mp3.tmp >> $HOME/tmp/compilations_flac.tmp
+rm $HOME/tmp/compilations_mp3.tmp
+mv $HOME/tmp/compilations_flac.tmp $HOME/compilations.m3u
+
+find $HOME/Music/comedy~spoken_word/ -iname "*.mp3" > $HOME/tmp/comedy~spoken_word_mp3.tmp
+find $HOME/Music/comedy~spoken_word/ -iname "*.flac" > $HOME/tmp/comedy~spoken_word_flac.tmp
+cat $HOME/tmp/comedy~spoken_word_mp3.tmp >> $HOME/tmp/comedy~spoken_word_flac.tmp
+rm $HOME/tmp/comedy~spoken_word_mp3.tmp
+mv $HOME/tmp/comedy~spoken_word_flac.tmp $HOME/comedy~spoken_word.m3u
+
+find $HOME/Music/documentary~info/ -iname "*.mp3" > $HOME/tmp/documentary~info_mp3.tmp
+find $HOME/Music/documentary~info/ -iname "*.flac" > $HOME/tmp/documentary~info_flac.tmp
+cat $HOME/tmp/documentary~info_mp3.tmp >> $HOME/tmp/documentary~info_flac.tmp
+rm $HOME/tmp/documentary~info_mp3.tmp
+mv $HOME/tmp/documentary~info_flac.tmp $HOME/documentary~info.m3u
+
+cp $HOME/*.m3u $HOME/tmp
+cd $HOME/tmp
+cat albums.m3u >> audiobooks.m3u > cat audiobooks.m3u >> radio_shows.m3u > cat radio_shows.m3u >> compilations.m3u > cat compilations.m3u >> comedy~spoken_word.m3u > cat comedy~spoken_word.m3u >> documentary~info.m3u > cat documentary~info.m3u >> $HOME/everything.m3u
+rm * ; cd .. ; rmdir $HOME/tmp
