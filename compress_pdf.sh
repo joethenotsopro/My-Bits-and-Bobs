@@ -4,7 +4,7 @@
 # chmod +x $HOME/bin/compress_pdf.sh
 #
 # Open up a terminal window in your PDF files directory and then run the script... the script creates a directory
-# called $HOME/pdf_output # then compresses the PDF's into that directory. It leaves the originals intact.
+# called $HOME/pdf_output and then compresses the PDF's into that directory. It leaves the original PDF's intact.
 
 
 #!/bin/bash
