@@ -105,7 +105,7 @@ chmod u+x,go-rwx $HOME/bin/yourscript.sh
 The script above can be tailored to use for any Wine program, including Steam.
 
 Unfortunately the Linux version of Steam does not like my launch scripts and defies my hacking around it's innards
-so if you want to over/unclock you have to either try and run the Linux games from outside Steam (War Thunder works
+so if you want to over/underclock you have to either try and run the Linux games from outside Steam (War Thunder works
 for instance - see below) or be stuck running Linux games via Steam normally with 'optirun bash | steam' (which for
 stability I cannot do). 
 
