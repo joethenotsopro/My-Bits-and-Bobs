@@ -30,6 +30,7 @@ Do not ask for any help with driver or library issues - NVidia already owe me a 
 
 
 
+
 Before you go any further install nvidia-persistenced...
 
 sudo apt-get install nvidia-persistenced
