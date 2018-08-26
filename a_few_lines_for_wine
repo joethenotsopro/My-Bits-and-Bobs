@@ -1,0 +1,40 @@
+# To create a Wine prefix without Gecko or Mono:
+export WINEDLLOVERRIDES="mscoree,mshtml="
+
+# Or just no Gecko...
+export WINEDLLOVERRIDES="mshtml="
+
+# Or just no Mono...
+export WINEDLLOVERRIDES="mscoree="
+
+# Create a 32 bit prefix:
+WINEARCH=win32 WINEPREFIX=/home/bin/joethenotsopro/wine-bottles/NEW32BITPREFIX wine wineboot
+
+# Create a 64 bit prefix
+WINEPREFIX=/home/bin/joethenotsopro/wine-bottles/NEW64BITPREFIX wine wineboot
+
+# You can combine the commands above in a small script to quickly create prefixes with your requirements:
+export WINEDLLOVERRIDES="mscoree,mshtml="
+WINEARCH=win32 WINEPREFIX=/home/bin/joethenotsopro/wine-bottles/NEW32BITPREFIX wine wineboot
+# Will create a 32 bit prefix without Gecko or Mono
+
+
+
+
+# Quickly update Winetricks:
+wget  https://raw.githubusercontent.com/Winetricks/winetricks/master/src/winetricks
+chmod +x winetricks
+sudo mv winetricks /usr/bin/winetricks
+
+
+
+
+# A launch script for Wine programs, DE friendly!
+export WINEPREFIX=/home/joethenotsopro/wine-bottles/PREFIXNAME
+cd '/home/joethenotsopro/wine-bottles/PREFIXNAME/drive_c/Program Files (x86)/Your Programs Directory'
+wine "c:\Program Files (x86)\Your Programs Directory\yourprogram.exe"
+
+# Some programs misbehave so require a small virtual desktop to run on, or they just look better fullscreen in a window!... some games like Hearts of Iron look great like this
+export WINEPREFIX=/home/joethenotsopro/wine-bottles/PREFIXNAME
+cd '/home/joethenotsopro/wine-bottles/PREFIXNAME/drive_c/Program Files/Your Programs Directory'
+wine explorer /desktop=PROGRAM-NAME,1024x768 "c:\Program Files\Your Programs Directory\yourprogram.exe"
