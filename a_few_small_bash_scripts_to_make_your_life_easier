@@ -12,6 +12,27 @@ p7zip "$var"/*
 
 
 
+# Most modern distributions think we cannot be trusted with a root account, to enable root manually:
+sudo passwd root
+
+
+
+
+
+# Having a left handed mouse can be a challenge especially if you like minimalist X...
+
+Create a file in your home directory called .Xmodmap and add this small line:
+
+pointer = 3 2 1 4 5
+
+To run either execute on the terminal or add  to .xsessionrc:
+
+xmodmap ~/.Xmodmap
+
+
+
+
+
 # My other programs look fine why do the fonts in this one look so bad?
 #
 # Add this to a launch script and see if it helps.
