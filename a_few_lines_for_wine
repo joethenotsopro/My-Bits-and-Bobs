@@ -18,8 +18,8 @@ export WINEDLLOVERRIDES="mscoree,mshtml="
 WINEARCH=win32 WINEPREFIX=/home/bin/joethenotsopro/wine-bottles/NEW32BITPREFIX wine wineboot
 # Will create a 32 bit prefix without Gecko or Mono
 
-
-
+# Install all Microsofts fonts via the terminal....
+winetricks corefonts calibri cambria candara consolas constantia corbel lucida meiryo tahoma
 
 # Quickly update Winetricks:
 wget  https://raw.githubusercontent.com/Winetricks/winetricks/master/src/winetricks
