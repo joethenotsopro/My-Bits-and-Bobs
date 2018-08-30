@@ -259,3 +259,44 @@ cp $HOME/*.m3u $HOME/tmp
 cd $HOME/tmp
 cat albums.m3u >> audiobooks.m3u > cat audiobooks.m3u >> radio_shows.m3u > cat radio_shows.m3u >> compilations.m3u > cat compilations.m3u >> comedy~spoken_word.m3u > cat comedy~spoken_word.m3u >> documentary~info.m3u > cat documentary~info.m3u >> $HOME/everything.m3u
 rm * ; cd .. ; rmdir $HOME/tmp
+
+
+
+
+
+# You could also compile all your MP3's and FLAC's into whole albums for that retro turntable feel!
+# Requires mp3wrap for the MP3's and shntool for the FLAC's. mp3wrap is available in most repositories but
+# shntool you will probably need to compile yourself which is easy enough and takes only a minute.
+
+sudo apt-get install mp3wrap or http://mp3wrap.sourceforge.net/
+http://www.etree.org/shnutils/shntool/
+
+Make sure the directory of the album is what you want the file to be called and that you are in the directory
+to execute the shell script:
+
+doors,_the_-_la_woman >>>>|
+                          |
+                          | doors,_the_-_la_woman_-_01_-_the_changeling.flac
+                          | doors,_the_-_la_woman_-_02_-_love_her_madly.flac
+                          | doors,_the_-_la_woman_-_03_-_been_down_so_long.flac
+                          | etc
+
+Using shntool and the flac script below the above FLAC's will come out as: $HOME/doors,_the_-_la_woman.flac
+The same goes for mp3wrap and the MP3 script below. The file names do not matter but if you want the resulting
+FLAC/MP3 in proper running order the files have to be numbered
+
+#!/bin/bash
+ls *.flac > inputs.txt
+shntool join -o flac -F inputs.txt
+rm inputs.txt
+mv joined.flac $HOME/Music/"${PWD##*/}".flac
+
+#!/bin/bash
+mp3wrap "${PWD##*/}".mp3 *.mp3
+mv "${PWD##*/}"_MP3WRAP.mp3 "${PWD##*/}".mp3
+mv "${PWD##*/}".mp3 $HOME/Music/albums
+
+The original MP3's and FLAC's remain untouched so you can either trash them or archive them for the future.
+
+
+
