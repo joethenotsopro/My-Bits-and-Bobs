@@ -1,16 +1,17 @@
-**********Tested (and working) on Debian Stable/LMDE 3 Cindy***********
-**********YMMV on other distributions although I daresay it ***********
-**********  should work on all Debian based distributions   ***********
+**********Tested (and working) on Debian Stable/LMDE 3 Cindy & AntiX ***********
+**********    YMMV on other distributions although I daresay it      ***********
+**********      should work on all Debian based distributions        ***********
 
 
 
 What is this guide for? It's to make the NVidia/Bumblebee drivers retain the settings you choose for underclocking 
 or overclocking whilst running a game, and then for it to return to normal discrete mode once the game has ended.
 
-There is a small delay in between a game launching and the NVidia/Bumblebee drivers loading, enough for you to lose the
-settings you need whilst playing the game (as the graphics swap back and forth settings get removed), and in my case it 
-makes my system unstable as my NVidia Optimus card does not like to run at full speed, call it age or whatever I don't
-know it's just very temperamental when it runs too hot hence why I needed to underclock the dedicated card.
+There is a small delay in between a game launching and the NVidia/Bumblebee kernel drivers loading, enough for you to
+lose the settings you wanted whilst playing the game (as the graphics swap back and forth settings get removed), and
+in my case it makes my system unstable as my NVidia Optimus card does not like to run at full speed, call it age or
+whatever I don't know it's just very temperamental when it runs too hot hence why I needed to underclock the dedicated
+card.
 
 I cannot run a game normally with 'primusrun wine "mygame.exe"' as the NVidia card likes to throw a fit and crash me
 back to the desktop randomly, so after ALOT (and I mean alot) of trial and error I came up with this small guide to 
@@ -110,7 +111,7 @@ for instance - see below) or be stuck running Linux games via Steam normally wit
 stability I cannot do). 
 
 Here's my War Thunder launch script, it does work with a small complaint at the beginning of the script. As you 
-can see I'm running the game directly by avoiding War Thunders own game launcher. If your game has a launcher
+can see I'm running the game directly by avoiding War Thunders own game launcher. If your game have launchers
 then that games launcher will detach the scripts persistence process once it launches the main game which then
 unloads NVidia/Bumblebee before reloading NVidia/Bumblebee again(!) thus resetting the settings you need for
 under/overclocking...... Optimus sucks, it really does.
@@ -132,14 +133,8 @@ xvt e /home/joenotsopro/bin/launchscript.sh
 
 ...or just direct from the terminal window itself. This has the added bonus of an easy way out (kill the terminal)
 if something goes slightly bonkers, as it sometimes does. Do use xvt for launching scripts as it has a tiny
-footprint (around 1MB in LMDE's Cinnamon DE) compared to other more fancy terminal emulators which are greedy 
-pigs in terms of memory usage. Oink oink.
-
-
-
-
-One other tip I can mention for laptop gaming is to install cpupower and pre-set your CPU's frequencies on boot
-up. You can do this by:
+footprint (around 1MB in LMDE's Cinnamon DE). One other tip I can mention for laptop gaming is to install cpupower
+and pre-set your CPU's frequencies on boot up. You can do this by:
 
 sudo apt-get install linux-cpupower
 
